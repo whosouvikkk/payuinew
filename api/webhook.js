@@ -1,5 +1,4 @@
-export default async function handler(req, res) {
-    // Only allow POST requests
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -12,10 +11,9 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server configuration error' });
         }
 
-        // Create the Discord Embed matching your theme
         const embed = {
             title: "💳 New Payment Submitted",
-            color: 14231153, // The #d92671 Pink/Purple color
+            color: 14231153,
             fields: [
                 { name: "Payment Type", value: planType, inline: true },
                 { name: "MoonWitch Username", value: username, inline: true },
@@ -25,7 +23,6 @@ export default async function handler(req, res) {
             footer: { text: "MoonWitch Payment System" }
         };
 
-        // Send data to Discord
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -41,4 +38,4 @@ export default async function handler(req, res) {
         console.error("Webhook Error:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+};
