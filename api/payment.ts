@@ -10,7 +10,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { plan, amount, transactionId, username } = req.body;
+  // Removed amount from the destructured body
+  const { plan, transactionId, username } = req.body;
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -19,16 +20,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Format a nice embed message for your Discord channel
     const discordPayload = {
-      content: "🔔 **New Payment Submitted!**",
+      content: "🔔 **New Payment Verification Submitted!**",
       embeds: [
         {
-          title: "Payment Verification Request",
-          color: 9646954, // Hex #9333EA (Matching the purple button)
+          title: "Payment Details",
+          color: 15485081, // Hex #EC4899 (Pinkish to match frontend theme)
           fields: [
             { name: "Plan/Type", value: plan.toUpperCase(), inline: true },
-            { name: "Amount Paid", value: `₹${amount}`, inline: true },
             { name: "MoonWitch Username", value: `**${username}**`, inline: true },
             { name: "Transaction ID / UTR", value: `\`${transactionId}\``, inline: false }
           ],
