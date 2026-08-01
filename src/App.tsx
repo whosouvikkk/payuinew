@@ -139,16 +139,16 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/credits" replace />} />
       <Route path="/credits" element={
-        <PaymentView data={{ ...baseData, id: 'credits', instruction: 'Pay for the number of credits you want', payingAmount: '₹2 per credit' }} />
+        <PaymentView data={{ ...baseData, id: 'credits', instruction: 'Minimum Purchase: ₹50 (20 Credits)\n\n1. Scan the QR code above using any UPI app.\n2. Pay a minimum of ₹50 to receive 20 Credits.\n3. You may purchase additional credits by paying a higher amount.\n4. Enter your MoonWitch Username.\n5. Enter your UTR / Transaction Number.\n6. Click "Payment Done".\n7. Once your payment is manually verified, your credits will be added to your account.\n\nNote: Credits never expire and can be used anytime.', payingAmount: '₹50 for 20 Credits' }} />
       } />
       <Route path="/weekly" element={
-        <PaymentView data={{ ...baseData, id: 'weekly', instruction: '7 Days Unrestricted Access', payingAmount: '₹199' }} />
+        <PaymentView data={{ ...baseData, id: 'weekly', instruction: 'Price: ₹149\n\n1. Scan the QR code above using any UPI app.\n2. Pay exactly ₹149.\n3. Enter your MoonWitch Username.\n4. Enter your UTR / Transaction Number.\n5. Click "Payment Done".\n6. After manual verification, your Weekly Subscription will be activated.\n\nVerification usually takes only a short time.', payingAmount: '₹149' }} />
       } />
       <Route path="/monthly" element={
-        <PaymentView data={{ ...baseData, id: 'monthly', instruction: '30 Days Unrestricted Access', payingAmount: '₹599' }} />
+        <PaymentView data={{ ...baseData, id: 'monthly', instruction: 'Price: ₹499\n\n1. Scan the QR code above using any UPI app.\n2. Pay exactly ₹499.\n3. Enter your MoonWitch Username.\n4. Enter your UTR / Transaction Number.\n5. Click "Payment Done".\n6. After manual verification, your Monthly Subscription will be activated.\n\nEnjoy uninterrupted premium access for 30 days after activation.', payingAmount: '₹499' }} />
       } />
       <Route path="/lifetime" element={
-        <PaymentView data={{ ...baseData, id: 'lifetime', instruction: 'Pay once, access forever', payingAmount: '₹1999' }} />
+        <PaymentView data={{ ...baseData, id: 'lifetime', instruction: 'Price: ₹1,999\n\n1. Scan the QR code above using any UPI app.\n2. Pay exactly ₹1,999.\n3. Enter your MoonWitch Username.\n4. Enter your UTR / Transaction Number.\n5. Click "Payment Done".\n6. After manual verification, Lifetime Access will be permanently added to your account.\n\nOne-time payment. No renewals or recurring charges.', payingAmount: '₹1999' }} />
       } />
     </Routes>
   );
