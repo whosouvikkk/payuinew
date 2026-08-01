@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/credits", "destination": "/index.html" },
+    { "source": "/weekly", "destination": "/index.html" },
+    { "source": "/monthly", "destination": "/index.html" },
+    { "source": "/lifetime", "destination": "/index.html" }
+  ]
+}
