@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoonWitch OSINT - Payment</title>
+    <title>MoonWitch OSINT - Payment Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #050305;
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --border-color: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(17, 12, 17, 0.75);
+            --border-color: rgba(217, 38, 113, 0.2);
             --accent: #d92671;
             --accent-glow: #ff3385;
             --text-main: #f3f4f6;
@@ -20,294 +20,461 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at top center, rgba(217, 38, 113, 0.1), transparent 50%);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(217, 38, 113, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.08), transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 2rem 1rem;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .header {
+        /* Header Logo */
+        .brand-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
-        .header svg { stroke: var(--accent); width: 24px; height: 24px; }
-        .header h1 { font-size: 1.25rem; letter-spacing: 2px; text-transform: uppercase; }
-        .header span { color: var(--accent); }
+        .brand-header svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent);
+        }
 
+        .brand-header span {
+            color: var(--accent);
+        }
+
+        /* Glassmorphism Card */
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 24px;
             width: 100%;
-            max-width: 550px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            max-width: 520px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(217, 38, 113, 0.1);
             overflow: hidden;
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.4s ease-out;
         }
 
+        /* Scanner Section */
         .scanner-section {
-            padding: 2rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
         }
 
-        .scanner-img-wrapper {
+        .scanner-wrapper {
             position: relative;
             display: inline-block;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .scanner-glow {
             position: absolute;
             inset: -4px;
-            background: linear-gradient(45deg, var(--accent), #9333ea);
+            background: linear-gradient(135deg, var(--accent), #9333ea);
             border-radius: 20px;
-            filter: blur(15px);
-            opacity: 0.3;
+            filter: blur(12px);
+            opacity: 0.4;
         }
 
         .scanner-img {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             object-fit: cover;
+            display: block;
+            background: #000;
         }
 
-        .content-section { padding: 2rem; }
-        .title { font-size: 1.8rem; text-align: center; margin-bottom: 0.5rem; }
-        .desc { color: var(--accent); text-align: center; font-weight: 500; margin-bottom: 1.5rem; }
-        
-        .instructions {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .scanner-subtitle {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
-        .instructions ol {
+        /* Content Section */
+        .content-section {
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-desc {
+            color: var(--accent);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 1.25rem 1.25rem 1.25rem 2.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .instructions-box ol {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             line-height: 1.6;
-            padding-left: 1rem;
         }
 
-        .instructions li::marker { color: var(--accent); }
+        .instructions-box li {
+            margin-bottom: 0.4rem;
+        }
 
-        .form-group { margin-bottom: 1.5rem; }
+        .instructions-box li::marker {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
         .form-group label {
             display: block;
             font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
             color: var(--text-muted);
             margin-bottom: 0.5rem;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
 
         .form-control {
             width: 100%;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-color);
-            color: white;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(217, 38, 113, 0.2);
+            box-shadow: 0 0 12px rgba(217, 38, 113, 0.3);
         }
 
-        .btn {
+        .btn-submit {
             width: 100%;
-            padding: 1rem;
+            padding: 0.95rem;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(90deg, var(--accent), #9333ea);
+            background: linear-gradient(90deg, #d92671, #9333ea);
             color: white;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.3s;
-            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(217, 38, 113, 0.3);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn:hover { opacity: 0.9; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-submit:hover {
+            opacity: 0.95;
+            box-shadow: 0 6px 25px rgba(217, 38, 113, 0.5);
+            transform: translateY(-1px);
+        }
 
-        .success-state {
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Error Message */
+        .error-msg {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
             display: none;
             text-align: center;
-            padding: 3rem 2rem;
+        }
+
+        /* Success State Card */
+        .success-card {
+            display: none;
+            text-align: center;
+            padding: 3.5rem 2rem;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .success-icon {
-            width: 80px;
-            height: 80px;
+            width: 72px;
+            height: 72px;
             background: rgba(34, 197, 94, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            color: #4ade80;
+            color: #22c55e;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.2);
         }
 
-        .success-icon svg { width: 40px; height: 40px; }
-        .error-msg { color: #f87171; font-size: 0.85rem; margin-top: 0.5rem; display: none; text-align: center;}
+        .success-icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <h1>MoonWitch<span>.OSINT</span></h1>
+    <!-- Header Logo -->
+    <div class="brand-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <div>MoonWitch<span>.OSINT</span></div>
     </div>
 
+    <!-- Main Payment Card -->
     <div class="glass-card" id="payment-card">
         <div class="scanner-section">
-            <div class="scanner-img-wrapper">
+            <div class="scanner-wrapper">
                 <div class="scanner-glow"></div>
-                <img src="/scanner.png" alt="QR Code" class="scanner-img" onerror="this.src='https://via.placeholder.com/200/111/d92671?text=QR+Code'">
+                <img src="/scanner.png" alt="QR Code" class="scanner-img" onerror="this.src='https://via.placeholder.com/220/050305/d92671?text=Scan+QR+Code'">
             </div>
-            <p style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Scan the QR Code to Complete Payment</p>
+            <div class="scanner-subtitle">Scan the QR Code to Complete Payment</div>
         </div>
 
         <div class="content-section">
-            <h2 class="title" id="page-title">Loading...</h2>
-            <p class="desc" id="page-desc"></p>
+            <h1 class="page-title" id="page-title">Loading...</h1>
+            <div class="page-desc" id="page-desc"></div>
 
-            <div class="instructions">
+            <div class="instructions-box">
                 <ol id="instructions-list"></ol>
             </div>
 
             <form id="payment-form">
                 <div class="form-group">
-                    <label>MoonWitch Username</label>
-                    <input type="text" id="username" class="form-control" placeholder="Agent ID" required>
+                    <label for="username">MoonWitch Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter Agent ID" required>
                 </div>
                 <div class="form-group">
-                    <label>UTR / Transaction Number</label>
-                    <input type="text" id="utr" class="form-control" placeholder="12-digit UTR" minlength="10" required>
+                    <label for="utr">UTR Number / Transaction Number</label>
+                    <input type="text" id="utr" class="form-control" placeholder="Enter UTR (min 10 characters)" minlength="10" required>
                 </div>
+
                 <div class="error-msg" id="error-message"></div>
-                <button type="submit" class="btn" id="submit-btn">Payment Done</button>
+
+                <button type="submit" class="btn-submit" id="submit-btn">
+                    <span id="btn-text">Payment Done</span>
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- Success Screen -->
-    <div class="glass-card success-state" id="success-card">
+    <!-- Success Screen Card -->
+    <div class="glass-card success-card" id="success-card">
         <div class="success-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
         </div>
-        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Payment Submitted Successfully</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+        <h2 style="font-size: 1.6rem; margin-bottom: 0.75rem; font-weight: 700;">Payment Submitted Successfully</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; max-width: 400px; margin: 0 auto;">
             Your payment request has been sent successfully.<br><br>
-            Once our team verifies your payment, your request will be processed and added to your MoonWitch account. No further action is required.
+            Once our team verifies your payment, your credits or subscription will be added to your MoonWitch account.<br><br>
+            <strong style="color: var(--text-main);">No further action is required.</strong>
         </p>
     </div>
 
     <script>
-        // Configuration for different routes
-        const plans = {
-            'credits': {
+        // Route Configurations
+        const routes = {
+            '/credits': {
                 title: 'Purchase Credits',
                 desc: '20 Credits = ₹50',
-                type: 'Credits',
+                planType: 'Credits',
                 instructions: [
-                    'Scan the QR code above.', 'Pay exactly ₹50.',
-                    'Enter your MoonWitch username and the UTR below.', 'Click "Payment Done".',
-                    'Credits will be added after manual verification.'
+                    'Scan the QR code above.',
+                    'Pay exactly ₹50.',
+                    'After completing the payment, enter your MoonWitch username and the UTR / Transaction Number below.',
+                    'Click "Payment Done".',
+                    'After manual verification, your credits will automatically be added to your account.'
                 ]
             },
-            'weekly': {
-                title: 'Weekly Subscription', desc: '', type: 'Weekly',
-                instructions: ['Scan the QR code.', 'Pay the Weekly amount.', 'Enter username and UTR.', 'Click Payment Done.', 'Subscription activates after verification.']
+            '/weekly': {
+                title: 'Weekly Subscription',
+                desc: '',
+                planType: 'Weekly Subscription',
+                instructions: [
+                    'Scan the QR code above.',
+                    'Pay the Weekly subscription amount.',
+                    'Enter your MoonWitch username.',
+                    'Enter your UTR / Transaction Number.',
+                    'Click Payment Done.',
+                    'After manual verification, your Weekly subscription will be activated.'
+                ]
             },
-            'monthly': {
-                title: 'Monthly Subscription', desc: '', type: 'Monthly',
-                instructions: ['Scan the QR code.', 'Pay the Monthly amount.', 'Enter username and UTR.', 'Click Payment Done.', 'Subscription activates after verification.']
+            '/monthly': {
+                title: 'Monthly Subscription',
+                desc: '',
+                planType: 'Monthly Subscription',
+                instructions: [
+                    'Scan the QR code above.',
+                    'Pay the Monthly subscription amount.',
+                    'Enter your MoonWitch username.',
+                    'Enter your UTR / Transaction Number.',
+                    'Click Payment Done.',
+                    'After manual verification, your Monthly subscription will be activated.'
+                ]
             },
-            'lifetime': {
-                title: 'Lifetime Membership', desc: '', type: 'Lifetime',
-                instructions: ['Scan the QR code.', 'Pay the Lifetime amount.', 'Enter username and UTR.', 'Click Payment Done.', 'Access activates after verification.']
+            '/lifetime': {
+                title: 'Lifetime Membership',
+                desc: '',
+                planType: 'Lifetime Membership',
+                instructions: [
+                    'Scan the QR code above.',
+                    'Pay the Lifetime amount.',
+                    'Enter your MoonWitch username.',
+                    'Enter your UTR / Transaction Number.',
+                    'Click Payment Done.',
+                    'After manual verification, your Lifetime access will be activated.'
+                ]
             }
         };
 
-        // Determine current plan from URL
-        let path = window.location.pathname.replace('/', '').toLowerCase();
-        if (!plans[path]) path = 'credits'; // Default fallback
-        const currentPlan = plans[path];
+        // Determine current route or default to /credits
+        let currentPath = window.location.pathname.toLowerCase();
+        if (!routes[currentPath]) {
+            currentPath = '/credits';
+        }
 
-        // Populate HTML with plan data
-        document.getElementById('page-title').innerText = currentPlan.title;
-        const descEl = document.getElementById('page-desc');
-        if(currentPlan.desc) { descEl.innerText = currentPlan.desc; } else { descEl.style.display = 'none'; }
+        const currentRoute = routes[currentPath];
+
+        // Populate dynamic page text
+        document.getElementById('page-title').innerText = currentRoute.title;
         
-        const listEl = document.getElementById('instructions-list');
-        currentPlan.instructions.forEach(inst => {
+        const descEl = document.getElementById('page-desc');
+        if (currentRoute.desc) {
+            descEl.innerText = currentRoute.desc;
+        } else {
+            descEl.style.display = 'none';
+        }
+
+        const instructionsList = document.getElementById('instructions-list');
+        currentRoute.instructions.forEach(instruction => {
             const li = document.createElement('li');
-            li.innerText = inst;
-            listEl.appendChild(li);
+            li.innerText = instruction;
+            instructionsList.appendChild(li);
         });
 
-        // Form Submission Logic
+        // Form Submit Handler
         document.getElementById('payment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('submit-btn');
+
+            const username = document.getElementById('username').value.trim();
+            const utr = document.getElementById('utr').value.trim();
             const errorEl = document.getElementById('error-message');
-            const username = document.getElementById('username').value;
-            const utr = document.getElementById('utr').value;
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
 
             errorEl.style.display = 'none';
-            btn.disabled = true;
-            btn.innerText = 'Processing...';
+
+            if (!username) {
+                errorEl.innerText = 'MoonWitch username is required.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (utr.length < 10) {
+                errorEl.innerText = 'UTR Number must be at least 10 characters long.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // Set loading state
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<div class="spinner"></div> Submitting...';
 
             try {
                 const response = await fetch('/api/webhook', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        planType: currentPlan.type, 
-                        username: username, 
-                        utr: utr 
+                    body: JSON.stringify({
+                        planType: currentRoute.planType,
+                        username: username,
+                        utr: utr
                     })
                 });
 
-                if (!response.ok) throw new Error('Submission failed.');
-                
+                if (!response.ok) {
+                    throw new Error('Failed to submit payment. Please try again.');
+                }
+
+                // Show success card
                 document.getElementById('payment-card').style.display = 'none';
                 document.getElementById('success-card').style.display = 'block';
-            } catch (error) {
-                errorEl.innerText = 'Something went wrong. Please try again.';
+
+            } catch (err) {
+                errorEl.innerText = err.message || 'An error occurred during submission.';
                 errorEl.style.display = 'block';
-                btn.disabled = false;
-                btn.innerText = 'Payment Done';
+                submitBtn.disabled = false;
+                btnText.innerText = 'Payment Done';
             }
         });
     </script>
