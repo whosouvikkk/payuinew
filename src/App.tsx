@@ -2,8 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, FormEvent } from 'react';
 
 // --- SHARED COMPONENT ---
-function PaymentView({ data }: { data: { id: string; title: string; subtitle: string; instruction: string } }) {
-  const [amount, setAmount] = useState('');
+function PaymentView({ data }: { data: { id: string; title: string; subtitle: string; instruction: string; payingAmount: string } }) {
   const [transactionId, setTransactionId] = useState('');
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,8 +10,18 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setResult(null);
+
+    // Validation: Ensure transaction ID is more than 5 characters
+    if (transactionId.trim().length <= 5) {
+      setResult({
+        type: 'error',
+        text: 'Transaction ID / UTR must be more than 5 digits.'
+      });
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch('/api/payment', {
@@ -20,9 +29,8 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           plan: data.id,
-          amount,
-          transactionId,
-          username
+          transactionId: transactionId.trim(),
+          username: username.trim()
         })
       });
       
@@ -30,11 +38,10 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
       
       setResult({
         type: 'success',
-        text: 'Payment details submitted! After verifying, your credits/plan will be added.'
+        text: 'Payment details submitted! After verifying, your plan/credits will be added.'
       });
       
       // Clear form on success
-      setAmount('');
       setTransactionId('');
       setUsername('');
     } catch (err) {
@@ -49,8 +56,8 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#0a0a10]">
-      {/* Main Payment Card matching image_6f5b83.png */}
-      <div className="bg-[#12101a] border border-gray-800/60 rounded-xl p-6 md:p-8 w-full max-w-md shadow-2xl">
+      {/* Main Payment Card with Pinkish Theme */}
+      <div className="bg-[#12101a] border border-pink-900/30 rounded-xl p-6 md:p-8 w-full max-w-md shadow-[0_0_40px_rgba(236,72,153,0.05)]">
         
         {/* Header */}
         <div className="text-center mb-6">
@@ -63,38 +70,27 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
           <img 
             src="/scanner.png" 
             alt="QR Code" 
-            className="w-48 h-48 object-contain rounded-lg mb-4 bg-black border border-gray-800"
+            className="w-48 h-48 object-contain rounded-lg mb-4 bg-black border border-pink-900/50 p-2"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2Nhbm5lcjwvdGV4dD48L3N2Zz4=';
             }}
           />
-          <p className="text-gray-400 text-sm">Pay the money here</p>
-          <p className="text-white font-bold text-base mt-1">{data.instruction}</p>
+          <p className="text-gray-400 text-sm">{data.instruction}</p>
+          <p className="text-pink-500 font-bold text-lg mt-1">{data.payingAmount}</p>
         </div>
 
         {/* Payment Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-white text-xs font-bold mb-2">Amount Paid</label>
-            <input
-              type="text"
-              required
-              placeholder="Enter amount paid in INR"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-full bg-[#0a0910] border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
-            />
-          </div>
-
-          <div>
             <label className="block text-white text-xs font-bold mb-2">Transaction ID</label>
             <input
               type="text"
               required
+              minLength={6}
               placeholder="Enter your UPI Txn ID / UTR"
               value={transactionId}
               onChange={(e) => setTransactionId(e.target.value)}
-              className="w-full bg-[#0a0910] border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full bg-[#0a0910] border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all"
             />
           </div>
 
@@ -106,14 +102,14 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
               placeholder="e.g. kaddulele"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full bg-[#0a0910] border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full bg-[#0a0910] border border-gray-800 rounded-lg p-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 bg-[#9333ea] hover:bg-[#7e22ce] text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+            className="w-full mt-4 bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-[0_0_15px_rgba(236,72,153,0.3)] hover:shadow-[0_0_25px_rgba(236,72,153,0.5)]"
           >
             {loading ? 'Submitting...' : 'Submit Payment Details'}
             {!loading && (
@@ -135,17 +131,25 @@ function PaymentView({ data }: { data: { id: string; title: string; subtitle: st
   );
 }
 
-// --- ROUTER (No top navigation) ---
+// --- ROUTER ---
 export default function App() {
   const baseData = { title: 'INR Payment', subtitle: 'Complete your transaction using the QR code below.' };
 
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/credits" replace />} />
-      <Route path="/credits" element={<PaymentView data={{ ...baseData, id: 'credits', instruction: 'Each credit - 2rs' }} />} />
-      <Route path="/weekly" element={<PaymentView data={{ ...baseData, id: 'weekly', instruction: 'Weekly Pass - 199rs' }} />} />
-      <Route path="/monthly" element={<PaymentView data={{ ...baseData, id: 'monthly', instruction: 'Monthly Plan - 599rs' }} />} />
-      <Route path="/lifetime" element={<PaymentView data={{ ...baseData, id: 'lifetime', instruction: 'Lifetime Access - 1999rs' }} />} />
+      <Route path="/credits" element={
+        <PaymentView data={{ ...baseData, id: 'credits', instruction: 'Pay for the number of credits you want', payingAmount: '₹2 per credit' }} />
+      } />
+      <Route path="/weekly" element={
+        <PaymentView data={{ ...baseData, id: 'weekly', instruction: '7 Days Unrestricted Access', payingAmount: '₹199' }} />
+      } />
+      <Route path="/monthly" element={
+        <PaymentView data={{ ...baseData, id: 'monthly', instruction: '30 Days Unrestricted Access', payingAmount: '₹599' }} />
+      } />
+      <Route path="/lifetime" element={
+        <PaymentView data={{ ...baseData, id: 'lifetime', instruction: 'Pay once, access forever', payingAmount: '₹1999' }} />
+      } />
     </Routes>
   );
 }
