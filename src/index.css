@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-black text-pink-50 antialiased selection:bg-pink-500 selection:text-white;
+}
+
+/* Custom glowing effect for the neon aesthetic */
+.glow-effect {
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.4), inset 0 0 10px rgba(236, 72, 153, 0.1);
+}
