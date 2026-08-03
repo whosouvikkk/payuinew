@@ -175,10 +175,10 @@ export default function App() {
   const weeklyPlan = {
     ...baseData,
     id: 'weekly',
-    priceHeading: 'Price: ₹149',
+    priceHeading: 'Price: ₹99',
     steps: [
       'Scan the QR code above using any UPI app.',
-      'Pay exactly ₹149.',
+      'Pay exactly ₹99.',
       'Enter your MoonWitch Username.',
       'Enter your UTR / Transaction Number.',
       'Click "Payment Done".',
@@ -190,10 +190,10 @@ export default function App() {
   const monthlyPlan = {
     ...baseData,
     id: 'monthly',
-    priceHeading: 'Price: ₹499',
+    priceHeading: 'Price: ₹249',
     steps: [
       'Scan the QR code above using any UPI app.',
-      'Pay exactly ₹499.',
+      'Pay exactly ₹249.',
       'Enter your MoonWitch Username.',
       'Enter your UTR / Transaction Number.',
       'Click "Payment Done".',
